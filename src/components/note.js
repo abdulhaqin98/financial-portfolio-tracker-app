@@ -12,6 +12,17 @@ function Note() {
   const [show, setShow] = React.useState(false); // Modal Switcher
   const [modalData, buttonData] = React.useState(''); // Sending data from button to modal
 
+  // Transporting data from Modal to Table
+  const [refShare, getShare] = React.useState('');
+  const [refPrice, getPrice] = React.useState('');
+  const [refDate, getDate] = React.useState('');
+
+  const [refTable, getTable] = React.useState([]);
+
+  React.useEffect(() => {
+    console.log('line16 called');
+  }); // Updates 'modalData' to latest one
+
   React.useEffect(() => {
     const fetchData = async () => {
 
@@ -19,7 +30,7 @@ function Note() {
 
       db.collection("stocks")
         .onSnapshot(function (data) {
-          console.log(data.docs[0].data())
+          // console.log(data.docs[0].data())
           setTasks(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
         });
     };
@@ -37,7 +48,7 @@ function Note() {
     // const db = firebase.firestore();
     // db.collection('stocks').doc(id).delete();
 
-    console.log(id); // Prints old value in the console. But sends a new one to modal! why is it so?
+    console.log(id);
   }
 
   const onUpdate = (id) => {
@@ -50,14 +61,24 @@ function Note() {
 
   const handleShow = (e) => {
     setShow(true);
+    // console.log(e.target.id + '     clicked');
 
     buttonData(e.target.id);
 
-    console.log(modalData + 'called');
+    // Requires another trigger from a different function to update modalData. but by the time new value gets in queue
+    // console.log(modalData + 'hello');
   }
 
-  const handleClose = () => setShow(false);
-  
+  const handleClose = () => {
+    setShow(false);
+
+    console.log(refShare + '    ' + refPrice + '   ' + refDate);
+
+    // var arr = [refShare, refPrice, refDate];
+    var newrow = [refShare, refPrice, refDate];
+
+  }
+
   return (
     <div>
       <Navbar bg="dark" variant="dark">
@@ -95,18 +116,18 @@ function Note() {
               </thead>
               <tbody>
                 {tasks.map(spell => (
-                  <tr key={spell.id}>
-                    <td>{spell.id}</td>
-                    <td>{spell.name}</td>
-                    <td>
-                      <Button variant="danger" onClick={() => onDelete(spell.id)}>{spell.id}</Button>
+                  <tr key={spell.refDate}>
+                    <td>{spell.refShare}</td>
+                    <td>{spell.refPrice}</td>
+                    {/* <td>
+                      <Button variant="danger" onClick={() => onDelete(spell.refShare)}>{spell.refShare}</Button>
                     </td>
 
                     <td>
-                      <input type="text" className=" " placeholder={spell.name} onChange={e => setupdateTask(e.target.value)} placeholder={spell.name}></input>
+                      <input type="text" className=" " placeholder={spell.refShare} onChange={e => setupdateTask(e.target.value)} placeholder={spell.refShare}></input>
 
                       <Button className="text-white ml-4" variant="warning" onClick={() => onUpdate(spell.id)}>Update Task</Button>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>
@@ -144,19 +165,70 @@ function Note() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>ADD to My Stocks</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-                  <p>Hello</p>
-                  <p>{modalData}</p>
+          <Container>
+            <Row>
+              <Col md={6}>
+                <h6>Company Name:</h6>
+              </Col>
+              <Col md={6}>
+                {/* <p>{modalData}</p> */}
+                <div>
+                  {
+                    tasks.map(spell => {
+                      return spell.id == modalData ? (
+                        <div key={spell.id}>
+                          <p>{spell.name}</p>
+                        </div>
+                      ) : null;
+                    })
+                  }
+                </div>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <h6>No. of shares</h6>
+              </Col>
+              <Col md={6}>
+                <input type="text" placeholder="No. of shares" onChange={e => getShare(e.target.value)} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <h6>Buy Price</h6>
+              </Col>
+              <Col md={6}>
+                <input type="text" placeholder="Buying Price" onChange={e => getPrice(e.target.value)} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <h6>Buy date</h6>
+              </Col>
+              <Col md={6}>
+                <input type="date" onChange={e => getDate(e.target.value)} />
+              </Col>
+            </Row>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
+          <Container>
+            <Row>
+              <Col md={4}></Col>
+              <Col md={4}>
+                <Button variant="primary" onClick={handleClose}>
+                  ADD
+                </Button>
+              </Col>
+              <Col md={4}></Col>
+            </Row>
+          </Container>
         </Modal.Footer>
       </Modal>
 
