@@ -22,7 +22,7 @@ class Table extends Component {
    }
 
    componentWillUpdate(){
-      console.log('update triggered');
+      // console.log('update triggered');
 
       axios.get(`https://ga-fpt.firebaseio.com/active.json`)
          .then(res => {
@@ -78,7 +78,7 @@ class Table extends Component {
                   {/* {() => {this.handleGet('MSFT','2020-03-27')}} */}
 
                   {
-                     (this.state.data == null) ? (<h3>NO STOCKS HAVE BEEN SELECTED</h3>) : (
+                     (this.state.data == null) ? (<tr><td><h3>NO STOCKS HAVE BEEN SELECTED</h3></td></tr>) : (
                      Object.keys(this.state.data).map((key) => {
                         return <tr key={key} id={key}>
                            <td>{this.state.data[key].symbol}</td>

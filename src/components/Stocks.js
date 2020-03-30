@@ -73,12 +73,37 @@ class Stocks extends Component {
       var id = e.target.id;
       console.log('button is id' + id);
 
+      // Date Validation
+
+      var x = new Date(this.state.date);
+      var date;
+
+      if (x.getDay() == 6) {
+
+         x.setDate(x.getDate() - 1);
+         date = x.toISOString();
+         date = date.slice(0, 10);
+         alert('The date for Saturday change to Friday');
+
+      } else if (x.getDay() == 0) {
+
+         x.setDate(x.getDate() - 2);
+         date = x.toISOString();
+         date = date.slice(0, 10);
+         alert('The date for Sunday change to Friday');
+
+      } else {
+         console.log('pass');
+      }
+
+      // End of Data Validation
+
       axios.post('https://ga-fpt.firebaseio.com/active.json', {
          symbol: this.state.symbol,
          name: this.state.name,
          share: this.state.share,
          buyprice: this.state.buyprice,
-         date: this.state.date
+         date: date
 
       })
          .then(function (response) {
@@ -105,12 +130,12 @@ class Stocks extends Component {
 
                {
                   (this.state.data == null) ? (<h3>ALL STOCKS ADDED</h3>) : (
-                  Object.keys(this.state.data).map((key) => {
-                     return <div key={key}>
-                        <button id={key} onClick={this.showModal} name={this.state.data[key].name}>{this.state.data[key].symbol}</button>
-                        <span>{this.state.data[key].name}</span>
-                     </div>
-                  })
+                     Object.keys(this.state.data).map((key) => {
+                        return <div key={key}>
+                           <button id={key} onClick={this.showModal} name={this.state.data[key].name}>{this.state.data[key].symbol}</button>
+                           <span>{this.state.data[key].name}</span>
+                        </div>
+                     })
                   )
                }
 
@@ -138,24 +163,24 @@ class Stocks extends Component {
                         </div>
                         <div>
                            <p>No. of Shares: </p>
-                           <input type="text" placeholder="No. of Shares" name="share" onChange={(e) => { this.handleChange(e) }} required/>
+                           <input type="text" placeholder="No. of Shares" name="share" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                         <div>
                            <p>Buy Price:</p>
-                           <input type="text" placeholder="Buying Price" name="buyprice" onChange={(e) => { this.handleChange(e) }} required/>
+                           <input type="text" placeholder="Buying Price" name="buyprice" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                         <div>
                            <p>Buy Date:</p>
-                           <input type="date" name="date" onChange={(e) => { this.handleChange(e) }} required/>
+                           <input type="date" name="date" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                      </div>
                      {/* <input type="submit" value="ADD"/> */}
-                  <div className="modal-button">
-                     <div>
-                        {/* <button id={this.state.id} onClick={this.postData}>ADD</button> */}
-                        <button type="submit">ADD</button>
+                     <div className="modal-button">
+                        <div>
+                           {/* <button id={this.state.id} onClick={this.postData}>ADD</button> */}
+                           <button type="submit">ADD</button>
+                        </div>
                      </div>
-                  </div>
                   </form>
                </div>
             </div>
