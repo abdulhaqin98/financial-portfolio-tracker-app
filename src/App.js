@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
+import Navbar from './components/Navbar';
+import Table from './components/Table';
+import Stocks from './components/Stocks';
 
-import Note from './components/note';
+class App extends Component {
 
-function App() {
+   render() {
 
-  return (
-    <Note/>
-  );
-
+      return (
+         <div className='App'>
+            <Navbar />
+            <Table />
+            <Stocks />
+         </div>
+      )
+   }
 }
+
 export default App;
