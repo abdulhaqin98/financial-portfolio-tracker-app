@@ -164,11 +164,11 @@ class Stocks extends Component {
                         </div>
                         <div>
                            <p>No. of Shares: </p>
-                           <input id="noShares" type="text" placeholder="No. of Shares" name="share" onChange={(e) => { this.handleChange(e) }} required />
+                           <input id="noShares" type="number" placeholder="No. of Shares" name="share" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                         <div>
                            <p>Buy Price:</p>
-                           <input id="buyPrice" type="text" placeholder="Buying Price" name="buyprice" onChange={(e) => { this.handleChange(e) }} required />
+                           <input id="buyPrice" type="number" placeholder="Buying Price" name="buyprice" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                         <div>
                            <p>Buy Date:</p>
