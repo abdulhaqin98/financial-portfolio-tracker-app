@@ -59,9 +59,9 @@ class Table extends Component {
 
       return (
 
-         <div id="mystocks">
+         <div className="MyStocks" id="mystocks">
             <h2>My Stocks</h2>
-            <table>
+            <table className="MyStocksTable">
                <thead>
                   <tr>
                      <th>Stock Symbol</th>
@@ -91,7 +91,7 @@ class Table extends Component {
                               buyprice={this.state.data[key].buyprice}
                               share={this.state.data[key].share} />
                            <td>
-                              <button id={key} onClick={this.handleDelete}>Stop Tracking</button>
+                              <button className="StopTrackingBtn" id={key} onClick={this.handleDelete}>Stop Tracking</button>
                            </td>
                         </tr>
                      })

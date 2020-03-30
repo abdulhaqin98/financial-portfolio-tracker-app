@@ -93,7 +93,8 @@ class Stocks extends Component {
          alert('The date for Sunday change to Friday');
 
       } else {
-         console.log('pass');
+         date = x.toISOString();
+         date = date.slice(0, 10);
       }
 
       // End of Data Validation
@@ -125,14 +126,14 @@ class Stocks extends Component {
 
       return (
          <>
-            <div id="addstocks">
+            <div className="AddStocksTitle" id="addstocks">
                <h2>Add Stocks to my Stocks</h2>
 
                {
                   (this.state.data == null) ? (<h3>ALL STOCKS ADDED</h3>) : (
                      Object.keys(this.state.data).map((key) => {
                         return <div key={key}>
-                           <button id={key} onClick={this.showModal} name={this.state.data[key].name}>{this.state.data[key].symbol}</button>
+                           <button className="StockButton" id={key} onClick={this.showModal} name={this.state.data[key].name}>{this.state.data[key].symbol}</button>
                            <span>{this.state.data[key].name}</span>
                         </div>
                      })
@@ -163,22 +164,22 @@ class Stocks extends Component {
                         </div>
                         <div>
                            <p>No. of Shares: </p>
-                           <input type="text" placeholder="No. of Shares" name="share" onChange={(e) => { this.handleChange(e) }} required />
+                           <input id="noShares" type="text" placeholder="No. of Shares" name="share" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                         <div>
                            <p>Buy Price:</p>
-                           <input type="text" placeholder="Buying Price" name="buyprice" onChange={(e) => { this.handleChange(e) }} required />
+                           <input id="buyPrice" type="text" placeholder="Buying Price" name="buyprice" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                         <div>
                            <p>Buy Date:</p>
-                           <input type="date" name="date" onChange={(e) => { this.handleChange(e) }} required />
+                           <input id="buyDate" type="date" name="date" onChange={(e) => { this.handleChange(e) }} required />
                         </div>
                      </div>
                      {/* <input type="submit" value="ADD"/> */}
                      <div className="modal-button">
                         <div>
                            {/* <button id={this.state.id} onClick={this.postData}>ADD</button> */}
-                           <button type="submit">ADD</button>
+                           <button className="AddButton" type="submit">Add</button>
                         </div>
                      </div>
                   </form>
